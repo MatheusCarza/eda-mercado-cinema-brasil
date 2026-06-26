@@ -2,12 +2,14 @@
 
 Análise exploratória dos dados de bilheteria do mercado cinematográfico nacional, utilizando dados públicos da **ANCINE (Agência Nacional do Cinema)**, cobrindo o período de **janeiro de 2014 a junho de 2026**.
 
+> ⚠️ Os dados de 2026 são parciais — cobrem apenas de janeiro a junho.
+
 ## Perguntas Investigadas
 
 - **Impacto da pandemia de COVID-19:** Como e quando o mercado foi afetado? Qual a magnitude da queda?
 - **Recuperação do mercado:** O público retornou aos patamares pré-pandemia? Em que ritmo?
-- **Filmes premiados:** Qual o impacto de obras como *Ainda Estou Aqui* (indicado ao Oscar 2025) e *Agente Secreto* na bilheteria do cinema nacional?
-- **Cinema nacional vs. estrangeiro:** Qual a participação de mercado do cinema brasileiro ao longo dos anos? Como ela evolui em momentos de destaque?
+- **Filmes premiados:** Qual o impacto de *Ainda Estou Aqui* (1º filme brasileiro a vencer o Oscar de Melhor Filme Internacional) e *O Agente Secreto* (Cannes 2025 — Melhor Diretor e Melhor Ator) na bilheteria nacional?
+- **Cinema nacional vs. estrangeiro:** Qual a participação de mercado do cinema brasileiro ao longo dos anos?
 - **Sazonalidade:** Existem padrões sazonais consistentes no consumo de cinema?
 - **Distribuição geográfica:** Como o público se distribui entre estados e regiões?
 
@@ -28,23 +30,43 @@ Os dados são provenientes do **portal de dados abertos da ANCINE** e registram 
 
 > **Nota:** Os dados registram público (número de espectadores), não receita financeira.
 
-O diretório `data/` contém **150 arquivos CSV** (um por mês), com separador `;` e encoding UTF-8. Por serem arquivos grandes (~5 GB no total), a pasta `data/` está listada no `.gitignore` e **não é versionada** no repositório.
+O diretório `data/` contém **150 arquivos CSV** (um por mês), com separador `;` e encoding UTF-8. Por serem arquivos grandes (~4,5 GB no total), a pasta `data/` está listada no `.gitignore` e **não é versionada** no repositório.
 
 ## Estrutura do Projeto
 
 ```
 eda-mercado-cinema-brasil/
-├── data/                   # CSVs da ANCINE (não versionados)
-├── analise.ipynb           # Notebook principal com toda a análise
-├── requirements.txt        # Dependências Python
-├── .venv/                  # Ambiente virtual (não versionado)
+├── data/                        # CSVs da ANCINE (não versionados — ~4,5 GB)
+├── notebooks/
+│   └── analise.ipynb            # Notebook principal com toda a análise
+├── outputs/
+│   ├── figures/                 # Gráficos exportados (.png)
+│   └── processados/             # Dados agregados para reutilização (.csv)
+├── requirements.txt             # Dependências Python
+├── .venv/                       # Ambiente virtual (não versionado)
 ├── .gitignore
 └── README.md
 ```
 
+## Análises Realizadas no Notebook
+
+| Seção | Conteúdo |
+|-------|----------|
+| 0 | Setup, imports e configurações |
+| 1 | Carregamento otimizado dos 150 CSVs (~20,9 milhões de linhas) |
+| 2 | Limpeza e padronização dos dados |
+| 3 | Visão geral do dataset |
+| 4 | Evolução temporal do mercado (2014–2026) |
+| 5 | Impacto da pandemia de COVID-19 |
+| 6 | Recuperação pós-pandemia |
+| 7 | Cinema nacional vs. estrangeiro |
+| 8 | Análise dos filmes premiados (*Ainda Estou Aqui* e *O Agente Secreto*) |
+| 9 | Distribuição geográfica por estado e município |
+| 10 | Sazonalidade histórica do mercado |
+
 ## Como Executar
 
-### 1. Clonar o repositório e entrar na pasta
+### 1. Clonar o repositório
 
 ```bash
 git clone https://github.com/<seu-usuario>/eda-mercado-cinema-brasil.git
@@ -53,10 +75,11 @@ cd eda-mercado-cinema-brasil
 
 ### 2. Baixar os dados
 
-Os dados da ANCINE estão disponíveis publicamente no portal:
+Os dados da ANCINE estão disponíveis publicamente:
+
 **https://dados.gov.br/dados/conjuntos-dados/bilheteria-diaria-de-obras-cinematograficas**
 
-Baixe os arquivos mensais de bilheteria diária por distribuidoras e coloque-os dentro da pasta `data/`.
+Baixe os arquivos mensais de **bilheteria diária por distribuidoras** e coloque-os dentro da pasta `data/`.
 
 ### 3. Criar e ativar o ambiente virtual
 
@@ -79,7 +102,9 @@ pip install -r requirements.txt
 jupyter notebook
 ```
 
-Abra o arquivo `analise.ipynb` no navegador.
+Abra `notebooks/analise.ipynb` e execute **Run All**.
+
+> O carregamento completo dos dados pode levar alguns minutos. O DataFrame ocupa aproximadamente 1,5–2 GB em RAM com as otimizações de memória aplicadas.
 
 ## Dependências Principais
 
@@ -87,7 +112,7 @@ Abra o arquivo `analise.ipynb` no navegador.
 |------------|-----|
 | `pandas` | Manipulação e agregação dos dados |
 | `numpy` | Operações numéricas |
-| `matplotlib` | Visualizações base |
+| `matplotlib` | Visualizações |
 | `seaborn` | Visualizações estatísticas |
 | `jupyter` / `notebook` | Ambiente de análise interativo |
 
