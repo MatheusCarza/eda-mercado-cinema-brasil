@@ -69,7 +69,7 @@ eda-mercado-cinema-brasil/
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/<seu-usuario>/eda-mercado-cinema-brasil.git
+git clone https://github.com/MatheusCarza/eda-mercado-cinema-brasil.git
 cd eda-mercado-cinema-brasil
 ```
 
