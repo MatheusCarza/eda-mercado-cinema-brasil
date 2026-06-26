@@ -21,7 +21,9 @@ build/
 .LSOverride
 
 # Dados brutos (arquivos grandes — não versionar no git)
-data/
+# /data/ com barra inicial ancora ao diretório raiz, evitando
+# ignorar outputs/data/ que deve ser versionado
+/data/
 
 # Claude Code
 .claude/
