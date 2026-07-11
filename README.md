@@ -42,6 +42,7 @@ eda-mercado-cinema-brasil/
 ├── outputs/
 │   ├── figures/                 # Gráficos exportados (.png)
 │   └── processados/             # Dados agregados para reutilização (.csv)
+├── app.py                       # Dashboard interativo (Streamlit)
 ├── requirements.txt             # Dependências Python
 ├── .venv/                       # Ambiente virtual (não versionado)
 ├── .gitignore
@@ -106,15 +107,32 @@ Abra `notebooks/analise.ipynb` e execute **Run All**.
 
 > O carregamento completo dos dados pode levar alguns minutos. O DataFrame ocupa aproximadamente 1,5–2 GB em RAM com as otimizações de memória aplicadas.
 
+## Dashboard Interativo
+
+Além do notebook, o projeto tem um dashboard em **Streamlit** (`app.py`) com filtros de Ano, Origem (Nacional/Estrangeiro) e Estado (UF), organizado em 6 abas: Visão Geral, Pandemia & Recuperação, Nacional vs. Estrangeiro, Filmes Premiados, Distribuição Geográfica e Sazonalidade.
+
+O dashboard roda **inteiramente a partir dos CSVs agregados em `outputs/processados/`** — não precisa dos dados brutos (`data/`) para funcionar. Esses CSVs já são gerados ao rodar o notebook (`notebooks/analise.ipynb`) e ficam versionados no repositório.
+
+Para rodar:
+
+```bash
+source .venv/bin/activate
+streamlit run app.py
+```
+
+O dashboard abre em `http://localhost:8501`. Se algum CSV esperado estiver ausente em `outputs/processados/`, a seção correspondente avisa na barra lateral — rode o notebook por completo (**Run All**) para gerá-los.
+
 ## Dependências Principais
 
 | Biblioteca | Uso |
 |------------|-----|
 | `pandas` | Manipulação e agregação dos dados |
 | `numpy` | Operações numéricas |
-| `matplotlib` | Visualizações |
-| `seaborn` | Visualizações estatísticas |
+| `matplotlib` | Visualizações (notebook) |
+| `seaborn` | Visualizações estatísticas (notebook) |
 | `jupyter` / `notebook` | Ambiente de análise interativo |
+| `streamlit` | Dashboard interativo (`app.py`) |
+| `plotly` | Gráficos interativos do dashboard |
 
 ## Fonte dos Dados
 
