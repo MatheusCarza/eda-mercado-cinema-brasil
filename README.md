@@ -1,21 +1,19 @@
 # Análise Exploratória do Mercado de Cinema Brasileiro
 
-Análise exploratória dos dados de bilheteria do mercado cinematográfico nacional, utilizando dados públicos da **ANCINE (Agência Nacional do Cinema)**, cobrindo o período de **janeiro de 2014 a junho de 2026**.
+EDA da bilheteria do cinema brasileiro com dados públicos da ANCINE, cobrindo janeiro de 2014 a junho de 2026 (2026 é parcial, só até junho).
 
-> ⚠️ Os dados de 2026 são parciais — cobrem apenas de janeiro a junho.
+## O que a análise investiga
 
-## Perguntas Investigadas
-
-- **Impacto da pandemia de COVID-19:** Como e quando o mercado foi afetado? Qual a magnitude da queda?
-- **Recuperação do mercado:** O público retornou aos patamares pré-pandemia? Em que ritmo?
-- **Filmes premiados:** Qual o impacto de *Ainda Estou Aqui* (1º filme brasileiro a vencer o Oscar de Melhor Filme Internacional) e *O Agente Secreto* (Cannes 2025 — Melhor Diretor e Melhor Ator) na bilheteria nacional?
-- **Cinema nacional vs. estrangeiro:** Qual a participação de mercado do cinema brasileiro ao longo dos anos?
-- **Sazonalidade:** Existem padrões sazonais consistentes no consumo de cinema?
-- **Distribuição geográfica:** Como o público se distribui entre estados e regiões?
+- Como a pandemia afetou o mercado e qual foi a magnitude da queda
+- Se o público voltou aos níveis pré-pandemia, e em que ritmo
+- O impacto de *Ainda Estou Aqui* (primeiro filme brasileiro a ganhar o Oscar de Melhor Filme Internacional) e *O Agente Secreto* (Cannes 2025) na bilheteria nacional
+- A participação do cinema nacional frente ao estrangeiro ao longo dos anos
+- Padrões sazonais no consumo de cinema
+- Como o público se distribui entre estados e municípios
 
 ## Dados
 
-Os dados são provenientes do **portal de dados abertos da ANCINE** e registram a bilheteria diária por sala de cinema em todo o Brasil.
+Os dados vêm do portal de dados abertos da ANCINE e registram a bilheteria diária por sala de cinema em todo o Brasil.
 
 | Campo | Descrição |
 |-------|-----------|
@@ -28,28 +26,28 @@ Os dados são provenientes do **portal de dados abertos da ANCINE** e registram 
 | `MUNICIPIO_SALA_COMPLEXO` / `UF_SALA_COMPLEXO` | Município e estado da sala |
 | `RAZAO_SOCIAL_DISTRIBUIDORA` | Distribuidora responsável |
 
-> **Nota:** Os dados registram público (número de espectadores), não receita financeira.
+Os dados registram público (número de espectadores), não receita.
 
-O diretório `data/` contém **150 arquivos CSV** (um por mês), com separador `;` e encoding UTF-8. Por serem arquivos grandes (~4,5 GB no total), a pasta `data/` está listada no `.gitignore` e **não é versionada** no repositório.
+`data/` tem 150 CSVs, um por mês, separador `;`, encoding UTF-8. Como o total dá uns 4,5 GB, a pasta está no `.gitignore` e não é versionada.
 
-## Estrutura do Projeto
+## Estrutura
 
 ```
 eda-mercado-cinema-brasil/
 ├── data/                        # CSVs da ANCINE (não versionados — ~4,5 GB)
 ├── notebooks/
-│   └── analise.ipynb            # Notebook principal com toda a análise
+│   └── analise.ipynb            # notebook principal
 ├── outputs/
-│   ├── figures/                 # Gráficos exportados (.png)
-│   └── processados/             # Dados agregados para reutilização (.csv)
-├── app.py                       # Dashboard interativo (Streamlit)
-├── requirements.txt             # Dependências Python
-├── .venv/                       # Ambiente virtual (não versionado)
+│   ├── figures/                 # gráficos exportados (.png)
+│   └── processados/             # dados agregados, reaproveitados pelo dashboard
+├── app.py                       # dashboard Streamlit
+├── requirements.txt
+├── .venv/
 ├── .gitignore
 └── README.md
 ```
 
-## Análises Realizadas no Notebook
+## Seções do notebook
 
 | Seção | Conteúdo |
 |-------|----------|
@@ -61,87 +59,68 @@ eda-mercado-cinema-brasil/
 | 5 | Impacto da pandemia de COVID-19 |
 | 6 | Recuperação pós-pandemia |
 | 7 | Cinema nacional vs. estrangeiro |
-| 8 | Análise dos filmes premiados (*Ainda Estou Aqui* e *O Agente Secreto*) |
+| 8 | Filmes premiados (*Ainda Estou Aqui* e *O Agente Secreto*) |
 | 9 | Distribuição geográfica por estado e município |
-| 10 | Sazonalidade histórica do mercado |
+| 10 | Sazonalidade histórica |
 
-## Como Executar
+## Como rodar
 
-### 1. Clonar o repositório
+**1. Clone o repositório**
 
 ```bash
 git clone https://github.com/MatheusCarza/eda-mercado-cinema-brasil.git
 cd eda-mercado-cinema-brasil
 ```
 
-### 2. Baixar os dados
+**2. Baixe os dados**
 
-Os dados da ANCINE estão disponíveis publicamente:
+Estão publicamente disponíveis em https://dados.gov.br/dados/conjuntos-dados/bilheteria-diaria-de-obras-cinematograficas — pegue os arquivos mensais de bilheteria diária por distribuidoras e coloque-os em `data/`.
 
-**https://dados.gov.br/dados/conjuntos-dados/bilheteria-diaria-de-obras-cinematograficas**
-
-Baixe os arquivos mensais de **bilheteria diária por distribuidoras** e coloque-os dentro da pasta `data/`.
-
-### 3. Criar e ativar o ambiente virtual
+**3. Ambiente virtual e dependências**
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate   # Linux/macOS
-# ou
-.venv\Scripts\activate      # Windows
-```
-
-### 4. Instalar as dependências
-
-```bash
+# .venv\Scripts\activate    # Windows
 pip install -r requirements.txt
 ```
 
-### 5. Abrir o Jupyter Notebook
+**4. Abra o notebook**
 
 ```bash
 jupyter notebook
 ```
 
-Abra `notebooks/analise.ipynb` e execute **Run All**.
+Abra `notebooks/analise.ipynb` e rode tudo (Run All). O carregamento completo pode levar alguns minutos — o DataFrame ocupa de 1,5 a 2 GB em RAM com as otimizações aplicadas.
 
-> O carregamento completo dos dados pode levar alguns minutos. O DataFrame ocupa aproximadamente 1,5–2 GB em RAM com as otimizações de memória aplicadas.
+## Dashboard
 
-## Dashboard Interativo
+`app.py` é um dashboard em Streamlit com filtros de ano, origem (nacional/estrangeiro) e estado, dividido em 6 abas: Visão Geral, Pandemia & Recuperação, Nacional vs. Estrangeiro, Filmes Premiados, Distribuição Geográfica e Sazonalidade.
 
-Além do notebook, o projeto tem um dashboard em **Streamlit** (`app.py`) com filtros de Ano, Origem (Nacional/Estrangeiro) e Estado (UF), organizado em 6 abas: Visão Geral, Pandemia & Recuperação, Nacional vs. Estrangeiro, Filmes Premiados, Distribuição Geográfica e Sazonalidade.
-
-O dashboard roda **inteiramente a partir dos CSVs agregados em `outputs/processados/`** — não precisa dos dados brutos (`data/`) para funcionar. Esses CSVs já são gerados ao rodar o notebook (`notebooks/analise.ipynb`) e ficam versionados no repositório.
-
-Para rodar:
+Ele lê só os CSVs já agregados em `outputs/processados/` (gerados pelo notebook) — não precisa dos dados brutos pra rodar.
 
 ```bash
 source .venv/bin/activate
 streamlit run app.py
 ```
 
-O dashboard abre em `http://localhost:8501`. Se algum CSV esperado estiver ausente em `outputs/processados/`, a seção correspondente avisa na barra lateral — rode o notebook por completo (**Run All**) para gerá-los.
+Abre em `http://localhost:8501`. Se faltar algum CSV em `outputs/processados/`, a aba correspondente avisa na barra lateral — nesse caso é só rodar o notebook inteiro de novo pra gerá-los.
 
-## Dependências Principais
+## Dependências principais
 
 | Biblioteca | Uso |
 |------------|-----|
 | `pandas` | Manipulação e agregação dos dados |
 | `numpy` | Operações numéricas |
-| `matplotlib` | Visualizações (notebook) |
-| `seaborn` | Visualizações estatísticas (notebook) |
-| `jupyter` / `notebook` | Ambiente de análise interativo |
-| `streamlit` | Dashboard interativo (`app.py`) |
+| `matplotlib` / `seaborn` | Visualizações no notebook |
+| `jupyter` / `notebook` | Ambiente de análise |
+| `streamlit` | Dashboard |
 | `plotly` | Gráficos interativos do dashboard |
 
-## Fonte dos Dados
+## Fonte dos dados
 
-**ANCINE — Agência Nacional do Cinema**
-Portal Brasileiro de Dados Abertos: https://dados.gov.br
-
-Os dados são públicos e disponibilizados sob licença aberta.
+ANCINE — Agência Nacional do Cinema, via Portal Brasileiro de Dados Abertos (https://dados.gov.br). Dados públicos, licença aberta.
 
 ## Licença
 
-Este projeto (código e análise) está disponível sob a licença **MIT**.
-Os dados são de domínio público, fornecidos pela ANCINE via Portal Dados.gov.br.
+MIT para o código e a análise. Os dados são de domínio público, fornecidos pela ANCINE.
